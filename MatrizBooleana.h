@@ -7,6 +7,8 @@
 bool** crearMatrizBooleana(const short, const short);
 void imprimirMatrizBooleana(bool**, const short, const short);
 void liberarMatriz(bool**, const short);
+void autoAsignarMatrizBooleana(bool**, const short, const short);
+bool** obtenerTraspuesta(bool**, const short, const short);
 
 bool** crearMatrizBooleana(short filas, const short columnas)
 {
@@ -46,6 +48,17 @@ void autoAsignarMatrizBooleana(bool** matriz, const short filas, const short col
         for(short j = 0; j < columnas; j++)
             matriz[i][j] = rand() % 2;
     }
+}
+
+bool** obtenerTraspuesta(bool** matriz, const short filas, const short columnas)
+{
+    bool** matrizTraspuesta = crearMatrizBooleana(columnas, filas);
+    for(short i = 0; i < columnas; i++)
+        for (short j = 0; j < filas; j++)
+        {
+                matrizTraspuesta[i][j] = matriz [j][i];
+        }
+    return matrizTraspuesta;
 }
 
 #endif // !MATRIZ_BOOLEANA_H
