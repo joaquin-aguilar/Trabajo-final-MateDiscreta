@@ -4,22 +4,23 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-bool** crearMatrizBooleana(short, short);
-void imprimirMatrizBooleana(bool**, short, short);
+bool** crearMatrizBooleana(const short, const short);
+void imprimirMatrizBooleana(bool**, const short, const short);
+void liberarMatriz(bool**, const short);
 
-bool** crearMatrizBooleana(short filas, short columnas)
+bool** crearMatrizBooleana(short filas, const short columnas)
 {
     bool** matriz = (bool**) malloc(sizeof(void*) * filas);
     for(short i = 0; i < filas; i++)
         matriz[i] = (bool*) malloc(sizeof(void*) * columnas);
     
     for(short i = 0; i < filas; i++)
-        for(short j = 0; j < filas; j++)
+        for(short j = 0; j < columnas; j++)
             matriz[i][j] = 0;
     return matriz;
 }
 
-void liberarMatriz(bool** matriz, short filas)
+void liberarMatriz(bool** matriz, const short filas)
 {
     for (int i = 0; i < filas; i++) 
         free(matriz[i]); 
@@ -27,14 +28,23 @@ void liberarMatriz(bool** matriz, short filas)
     free(matriz); 
 }
 
-void imprimirMatrizBooleana(bool** matriz, short filas, short columnas)
+void imprimirMatrizBooleana(bool** matriz, const short filas, const short columnas)
 {
     for(short i = 0; i < filas; i++)
     {
-        printf("|");
-        for(short j = 0; j < filas; j++)
+        printf("| ");
+        for(short j = 0; j < columnas; j++)
             printf("%d ", matriz[i][j]);   
         printf("|\n");
+    }
+}
+
+void autoAsignarMatrizBooleana(bool** matriz, const short filas, const short columnas)
+{
+    for(short i = 0; i < filas; i++)
+    {
+        for(short j = 0; j < columnas; j++)
+            matriz[i][j] = rand() % 2;
     }
 }
 
