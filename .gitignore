@@ -3,3 +3,6 @@
 
 # archivos compilados
 *.out
+
+# builds 
+builds/

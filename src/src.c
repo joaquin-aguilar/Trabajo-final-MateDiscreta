@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <time.h>
 
-#include "libs/matriz_boolena.h"
+#include "libs/matriz_booleana.h"
 
 int main(int argc, char** argv)
 {

@@ -1,5 +1,11 @@
 # Compilar usando gcc:
-    $ gcc main.c -o programa.out
+    $ gcc src/src.c -o builds/programa.out
 
 # Ejecutar:
-    $ ./programa.out (filas) (columnas)
+    $ ./builds/programa.out (filas) (columnas)
+
+# Compilar usando Make
+    $ make
+
+# Ejecutar usando Make:
+    $ make run ARGS="(filas) (columnas)"
