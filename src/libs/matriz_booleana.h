@@ -21,6 +21,8 @@ struct matriz_booleana obtener_traspuesta(const struct matriz_booleana*);
 struct matriz_booleana conjuncion_matriz_booleana(const struct matriz_booleana*, const struct matriz_booleana*);
 struct matriz_booleana disyuncion_matriz_booleana(const struct matriz_booleana*, const struct matriz_booleana*);
 
+bool es_matriz_simetrica(const struct matriz_booleana*);
+
 
 struct matriz_booleana crearMatriz_booleana(const short filas, const short columnas)
 {
@@ -123,5 +125,20 @@ struct matriz_booleana disyuncion_matriz_booleana(const struct matriz_booleana* 
     return matriz_c;
 }
 
+bool es_matriz_simetrica(const struct matriz_booleana* matriz)
+{
+    if (matriz->filas != matriz->columnas)
+    {
+        printf("la matriz no es cuadrada!\n");
+        return false;
+    }
+
+    for(int a = 0; a < matriz->filas; a++)
+        for (int b = 0; b < matriz->columnas; b++)
+            if(matriz->matriz[a][b] != matriz->matriz[b][a])
+                return false;
+
+    return true;
+}
 
 #endif // !MATRIZ_BOOLEANA_H
