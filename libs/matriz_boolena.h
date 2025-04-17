@@ -5,60 +5,72 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-bool** crearMatrizBooleana(const short, const short);
-void imprimirMatrizBooleana(bool**, const short, const short);
-void liberarMatriz(bool**, const short);
-void autoAsignarMatrizBooleana(bool**, const short, const short);
-bool** obtenerTraspuesta(bool**, const short, const short);
-
-bool** crearMatrizBooleana(short filas, const short columnas)
+typedef struct matriz_boolena
 {
-    bool** matriz = (bool**) malloc(sizeof(void*) * filas);
+    bool** matriz;
+    short filas, columnas;
+} matriz_boolena;
+
+
+struct matriz_boolena crearMatriz_booleana(const short, const short);
+void liberar_matriz(struct matriz_boolena*);
+void imprimirMatriz_booleana(struct matriz_boolena);
+void auto_asignar_matriz_booleana(struct matriz_boolena*);
+struct matriz_boolena obtenerTraspuesta(const struct matriz_boolena*);
+
+
+struct matriz_boolena crearMatriz_booleana(const short filas, const short columnas)
+{
+    matriz_boolena _matriz;
+    _matriz.filas = filas;
+    _matriz.columnas = columnas;
+    bool** matriz = (bool**) malloc(sizeof(bool*) * filas);
     for(short i = 0; i < filas; i++)
-        matriz[i] = (bool*) malloc(sizeof(void*) * columnas);
+        matriz[i] = (bool*) malloc(sizeof(bool) * columnas);
     
     for(short i = 0; i < filas; i++)
         for(short j = 0; j < columnas; j++)
             matriz[i][j] = 0;
-    return matriz;
+
+    _matriz.matriz = matriz;
+    return _matriz;
 }
 
-void liberarMatriz(bool** matriz, const short filas)
+void liberar_matriz(struct matriz_boolena* matriz)
 {
-    for (int i = 0; i < filas; i++) 
-        free(matriz[i]); 
+    for (int i = 0; i < matriz->filas; i++) 
+        free(matriz->matriz[i]); 
 
-    free(matriz); 
+    free(matriz->matriz); 
 }
 
-void imprimirMatrizBooleana(bool** matriz, const short filas, const short columnas)
+void imprimirMatriz_booleana(struct matriz_boolena matriz)
 {
-    for(short i = 0; i < filas; i++)
+    for(short i = 0; i < matriz.filas; i++)
     {
         printf("| ");
-        for(short j = 0; j < columnas; j++)
-            printf("%d ", matriz[i][j]);   
+        for(short j = 0; j < matriz.columnas; j++)
+            printf("%d ", matriz.matriz[i][j]);   
         printf("|\n");
     }
 }
 
-void autoAsignarMatrizBooleana(bool** matriz, const short filas, const short columnas)
+void auto_asignar_matriz_booleana(struct matriz_boolena* matriz)
 {
-    for(short i = 0; i < filas; i++)
+    for(short i = 0; i < matriz->filas; i++)
     {
-        for(short j = 0; j < columnas; j++)
-            matriz[i][j] = rand() % 2;
+        for(short j = 0; j < matriz->columnas; j++)
+            matriz->matriz[i][j] = rand() % 2;
     }
 }
 
-bool** obtenerTraspuesta(bool** matriz, const short filas, const short columnas)
+struct matriz_boolena obtenerTraspuesta(const struct matriz_boolena* matriz)
 {
-    bool** matrizTraspuesta = crearMatrizBooleana(columnas, filas);
-    for(short i = 0; i < columnas; i++)
-        for (short j = 0; j < filas; j++)
-        {
-                matrizTraspuesta[i][j] = matriz [j][i];
-        }
+    struct matriz_boolena matrizTraspuesta = crearMatriz_booleana(matriz->columnas, matriz->filas);
+    for(short i = 0; i < matriz->columnas; i++)
+        for (short j = 0; j < matriz->filas; j++)
+                matrizTraspuesta.matriz[i][j] = matriz->matriz[j][i];
+
     return matrizTraspuesta;
 }
 

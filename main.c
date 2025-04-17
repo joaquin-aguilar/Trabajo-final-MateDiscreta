@@ -17,16 +17,20 @@ int main(int argc, char** argv)
 
     int filas = atoi(argv[1]);
     int columnas = atoi(argv[2]);
-    bool** matriz = crearMatrizBooleana(filas, columnas);
-    autoAsignarMatrizBooleana(matriz, filas, columnas);    
-    bool** matrizTraspuesta = obtenerTraspuesta(matriz, filas, columnas);
+    matriz_boolena matriz_a;
+    matriz_a = crearMatriz_booleana(filas, columnas);
+    auto_asignar_matriz_booleana(&matriz_a);    
 
+    matriz_boolena matriz_a_traspuesta;
+    matriz_a_traspuesta = obtenerTraspuesta(&matriz_a);
 
-    imprimirMatrizBooleana(matriz, filas, columnas);
+    printf("matriz generada:\n");
+    imprimirMatriz_booleana(matriz_a);
     printf("\ntraspuesta:\n");
-    imprimirMatrizBooleana(matrizTraspuesta, columnas, filas);
+    imprimirMatriz_booleana(matriz_a_traspuesta);
 
-    liberarMatriz(matriz, filas);
-    liberarMatriz(matrizTraspuesta, filas);
+    liberar_matriz(&matriz_a);
+    liberar_matriz(&matriz_a_traspuesta);
+
     return 0; 
 }
