@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "*.asm": "nasm",
-        "stdio.h": "c",
-        "matrizbooleana.h": "c",
-        "stdbool.h": "c"
-    }
-}

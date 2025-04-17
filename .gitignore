@@ -1,2 +1,5 @@
-.vscode
+# configuración y variables de entorno de vscode
+.vscode/
+
+# archivos compilados
 *.out

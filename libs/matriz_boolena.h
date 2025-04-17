@@ -1,6 +1,7 @@
 #ifndef MATRIZ_BOOLEANA_H
 #define  MATRIZ_BOOLEANA_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
