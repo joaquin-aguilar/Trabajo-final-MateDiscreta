@@ -4,30 +4,27 @@
 #include <time.h>
 
 #include "libs/matriz_booleana.h"
+#include "libs/utils.h"
 
-int main(int argc, char** argv)
+int main()
 {
     srand(time(NULL));
-    if (argc != 3)
-    {
-        printf("No se obtuvieron los parametros esperados para la matriz, programa finalizado!\n");
-        return -1;
-    }
-    
+    int op = 0;
 
-    int filas = atoi(argv[1]);
-    int columnas = atoi(argv[2]);
-    matriz_booleana matriz_a;
-    matriz_a = crearMatriz_booleana(filas, columnas);
-    
+    // Validamos el ingreso del usuario
     do
     {
-        auto_asignar_matriz_booleana(&matriz_a);
-    } 
-    while (!es_matriz_simetrica(&matriz_a));
-    
-    imprimirMatriz_booleana(matriz_a);
-    liberar_matriz(&matriz_a);
+        printf("Ingresa la cantidad de estudiantes por favor (60 > n => 120 ): ");
+        scanf("%d", &op);
+    } while (op < 60 || op > 120);
 
+    
+    
+    matriz_booleana relacion_estudiantes = crearMatriz_booleana(op, op);
+    asignar_relacion_estudiantes(&relacion_estudiantes);
+    imprimirMatriz_booleana(&relacion_estudiantes);
+    printf("es matriz simetrica?: %s\n",  es_matriz_simetrica(&relacion_estudiantes) ? "si" : "no");
+
+    liberar_matriz(&relacion_estudiantes);
     return 0; 
 }

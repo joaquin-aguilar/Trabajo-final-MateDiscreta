@@ -14,7 +14,7 @@ typedef struct matriz_booleana
 
 struct matriz_booleana crearMatriz_booleana(const short, const short);
 void liberar_matriz(struct matriz_booleana*);
-void imprimirMatriz_booleana(struct matriz_booleana);
+void imprimirMatriz_booleana(const struct matriz_booleana*);
 void auto_asignar_matriz_booleana(struct matriz_booleana*);
 
 struct matriz_booleana obtener_traspuesta(const struct matriz_booleana*);
@@ -49,13 +49,13 @@ void liberar_matriz(struct matriz_booleana* matriz)
         free(matriz->matriz); 
 }
 
-void imprimirMatriz_booleana(struct matriz_booleana matriz)
+void imprimirMatriz_booleana(const struct matriz_booleana* matriz)
 {
-    for(short i = 0; i < matriz.filas; i++)
+    for(short i = 0; i < matriz->filas; i++)
     {
         printf("| ");
-        for(short j = 0; j < matriz.columnas; j++)
-            printf("%d ", matriz.matriz[i][j]);   
+        for(short j = 0; j < matriz->columnas; j++)
+            printf("%d ", matriz->matriz[i][j]);   
         printf("|\n");
     }
 }
