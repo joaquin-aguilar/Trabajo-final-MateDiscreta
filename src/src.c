@@ -9,19 +9,25 @@
 int main()
 {
     srand(time(NULL));
-    int op = 0;
+    int tamanyo_relacion = 0;
+    int trabajador_enfermo = 0;
+
 
     // Validamos el ingreso del usuario
     do
     {
-        printf("Ingresa la cantidad de estudiantes por favor (60 > n => 120 ): ");
-        scanf("%d", &op);
-    } while (op < 60 || op > 120);
+        printf("Ingresa la cantidad de trabajadores por favor (60 > n => 120 ): ");
+        scanf("%d", &tamanyo_relacion);
+    } while (tamanyo_relacion < 60 || tamanyo_relacion > 120);
 
+    do
+    {
+        printf("Ingrese el indice del trabajador enfermo por favor (0 - %d): ", tamanyo_relacion - 1);
+        scanf("%d", &trabajador_enfermo);
+    } while (trabajador_enfermo < 0 || trabajador_enfermo > tamanyo_relacion - 1);
     
-    
-    matriz_booleana relacion_estudiantes = crearMatriz_booleana(op, op);
-    asignar_relacion_estudiantes(&relacion_estudiantes);
+    matriz_booleana relacion_estudiantes = crearMatriz_booleana(tamanyo_relacion, tamanyo_relacion);
+    asignar_relacion_especial(&relacion_estudiantes);
     imprimirMatriz_booleana(&relacion_estudiantes);
     printf("es matriz simetrica?: %s\n",  es_matriz_simetrica(&relacion_estudiantes) ? "si" : "no");
 

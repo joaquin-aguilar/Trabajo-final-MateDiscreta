@@ -3,11 +3,11 @@
 
 #include "matriz_booleana.h"
 
-void asignar_relacion_estudiantes(struct matriz_booleana*);
+void asignar_relacion_especial(struct matriz_booleana*);
 short* generar_array_unico_aleatorio(short*, const short);
 
 
-void asignar_relacion_estudiantes(struct matriz_booleana* matriz)
+void asignar_relacion_especial(struct matriz_booleana* matriz)
 {
 
     for(int i = 0; i < matriz->filas; i++)
@@ -16,8 +16,12 @@ void asignar_relacion_estudiantes(struct matriz_booleana* matriz)
         short* array_rel = generar_array_unico_aleatorio(&tamanyo, matriz->filas);
         for (int j = 0; j < tamanyo; j++)
         {
-            matriz->matriz[i][array_rel[j]] = true;
-            matriz->matriz[array_rel[j]][i] = true;
+            // evitamos los bucles
+            if(array_rel[j] != i)
+            {
+                matriz->matriz[i][array_rel[j]] = true;
+                matriz->matriz[array_rel[j]][i] = true;
+            }
         }
         free(array_rel);
     }
