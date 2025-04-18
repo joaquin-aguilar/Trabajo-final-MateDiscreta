@@ -3,5 +3,5 @@
 
 # carpetas de compilacion y archivos de ejecución
 builds/
-imagenes/
+imagenes/*
 *.out

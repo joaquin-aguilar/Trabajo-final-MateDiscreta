@@ -33,6 +33,7 @@ int main()
 
     generar_archivo_dot(&relacion_estudiantes, "imagenes/archivodot.dot");
     system("dot -Tpng imagenes/archivodot.dot -o imagenes/grafo.png");
+
     liberar_matriz(&relacion_estudiantes);
     return 0; 
 }
