@@ -1,8 +1,7 @@
 # configuración y variables de entorno de vscode
 .vscode/
 
-# archivos compilados
-*.out
-
-# builds 
+# carpetas de compilacion y archivos de ejecución
 builds/
+imagenes/
+*.out
