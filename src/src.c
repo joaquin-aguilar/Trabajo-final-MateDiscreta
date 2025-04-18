@@ -9,9 +9,9 @@
 int main()
 {
     srand(time(NULL));
+
     int tamanyo_relacion = 0;
     int trabajador_enfermo = 0;
-
 
     // Validamos el ingreso del usuario
     do
@@ -31,6 +31,8 @@ int main()
     imprimirMatriz_booleana(&relacion_estudiantes);
     printf("es matriz simetrica?: %s\n",  es_matriz_simetrica(&relacion_estudiantes) ? "si" : "no");
 
+    generar_archivo_dot(&relacion_estudiantes, "imagenes/archivodot.dot");
+    system("dot -Tpng imagenes/archivodot.dot -o imagenes/grafo.png");
     liberar_matriz(&relacion_estudiantes);
     return 0; 
 }
