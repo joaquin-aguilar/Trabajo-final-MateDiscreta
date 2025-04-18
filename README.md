@@ -2,10 +2,10 @@
     $ gcc src/src.c -o builds/programa.out
 
 # Ejecutar:
-    $ ./builds/programa.out (filas) (columnas)
+    $ ./builds/programa.out
 
 # Compilar usando Make
     $ make
 
 # Ejecutar usando Make:
-    $ make run ARGS="(filas) (columnas)"
+    $ make run"
