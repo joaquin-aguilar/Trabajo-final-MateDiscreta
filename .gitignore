@@ -1,8 +1,7 @@
 # configuración y variables de entorno de vscode
 .vscode/
 
-# carpetas de compilacion y archivos de ejecución
+# carpetas de compilacion, binarios y archivos de ejecución
 builds/
-imagenes/*
-!imagenes/.gitkeep
 *.out
+instalacion
