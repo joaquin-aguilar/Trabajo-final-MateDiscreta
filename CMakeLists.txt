@@ -6,6 +6,7 @@ set(CMAKE_BUILD_TYPE )
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/instalacion" CACHE PATH "Installation directory")
 
+# Obtenemos informacion detallada y convertimos los logs de advertencia en errores al compilar
 set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} -Wall)
 
 project(aplicacion_de_relaciones)
@@ -24,6 +25,3 @@ install(TARGETS aplicacion_de_relaciones.out
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
-
-install(PROGRAMS ${CMAKE_CURRENT_LIST_DIR}/script.sh
-        DESTINATION bin)
