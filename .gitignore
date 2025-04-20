@@ -4,4 +4,5 @@
 # carpetas de compilacion, binarios y archivos de ejecución
 builds/
 *.out
-instalacion
+instalacion/
+imagenes/

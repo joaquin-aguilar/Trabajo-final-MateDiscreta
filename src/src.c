@@ -26,12 +26,14 @@ int main()
         scanf("%d", &trabajador_enfermo);
     } while (trabajador_enfermo < 0 || trabajador_enfermo > tamanyo_relacion - 1);
     
+    // Generamos la matriz y las relaciones
     matriz_booleana relacion_estudiantes = crearMatriz_booleana(tamanyo_relacion, tamanyo_relacion);
     asignar_relacion_especial(&relacion_estudiantes);
     imprimirMatriz_booleana(&relacion_estudiantes);
     printf("es matriz simetrica?: %s\n",  es_matriz_simetrica(&relacion_estudiantes) ? "si" : "no");
 
-    generar_archivo_dot(&relacion_estudiantes, "imagenes/archivodot.dot");
+    // Creamos el archivo para graphviz e imagen.
+    generar_archivo_dot(&relacion_estudiantes, "archivodot.dot");
     system("dot -Tpng imagenes/archivodot.dot -o imagenes/grafo.png");
 
     liberar_matriz(&relacion_estudiantes);

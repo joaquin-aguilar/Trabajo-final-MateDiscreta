@@ -1,3 +1,6 @@
+#include <sys/stat.h>
+#include <string.h>
+
 #include "utils.h"
 
 void asignar_relacion_especial(struct matriz_booleana* matriz)
@@ -52,22 +55,32 @@ short* generar_array_unico_aleatorio(short* tamanyo, const short max)
 
 void generar_archivo_dot(const struct matriz_booleana* matriz, const char* nombre_archivo)
 {
-        FILE* archivo = fopen(nombre_archivo, "w");
-        if (!archivo) 
-        {
-            printf("No se pudo crear el archivo!\n");
-            return;
-        }
-    
-        fprintf(archivo, "digraph G {\n");
-    
-        for (short i = 0; i < matriz->filas; ++i) 
-        {
-            for (short j = 0; j < matriz->filas; ++j) 
-                if (matriz->matriz[i][j]) 
-                    fprintf(archivo, "    %d -> %d;\n", i, j);
-        }
-    
-        fprintf(archivo, "}\n");
-        fclose(archivo);
+    if(!mkdir("imagenes", 0777))
+    {
+        printf("No se pudo crear la carpeta correctamente!");
+        return;
+    }
+
+    // buffer de la ruta
+    char ruta[30] = "imagenes/";
+    strcat(ruta, nombre_archivo); 
+
+    FILE* archivo = fopen(ruta, "w");
+    if (!archivo) 
+    {
+        printf("No se pudo crear el archivo!\n");
+        return;
+    }
+
+    fprintf(archivo, "digraph G {\n");
+
+    for (short i = 0; i < matriz->filas; ++i) 
+    {
+        for (short j = 0; j < matriz->filas; ++j) 
+            if (matriz->matriz[i][j]) 
+                fprintf(archivo, "    %d -> %d;\n", i, j);
+    }
+
+    fprintf(archivo, "}\n");
+    fclose(archivo);
 }
