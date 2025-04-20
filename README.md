@@ -13,14 +13,15 @@ Debian:
 ### O puedes revisar la [página oficial](https://www.gnu.org/software/make/)
 
 
-# Compilar usando gcc:
-    $ gcc src/src.c -o builds/programa.out
+# Compilar (Manualmente) usando gcc:
+    $ gcc src/src.c src/libs/matriz_booleana.c src/libs/utils.c -o builds/programa.out
 
 # Ejecutar:
     $ ./builds/programa.out
 
-# Compilar usando Make
-    $ make
+# Compilar usando Make (Automatizado)
+    $ sudo chmod +x ./script.sh
+      ./script.sh
 
-# Ejecutar usando Make:
-    $ make run
+# Ejecutar:
+    ./instalacion/bin/aplicacion_de_relaciones.out
