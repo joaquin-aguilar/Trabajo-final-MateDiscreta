@@ -21,7 +21,7 @@ Debian:
 
 # Compilar usando Make (Automatizado)
     $ sudo chmod +x ./script.sh
-      ./script.sh
+    $ ./script.sh
 
 # Ejecutar:
     ./instalacion/bin/aplicacion_de_relaciones.out
