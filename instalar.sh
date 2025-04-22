@@ -50,4 +50,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo -e "${VERDE}✅ Build e instalación completadas con éxito.${NC}"
-echo -e "${VERDE}🚀 Ejecuta con:${NC} ../instalacion/bin/aplicacion_de_relaciones.out"
+echo -e "${VERDE}🚀 Ejecuta con:${NC} ./instalacion/bin/aplicacion_de_relaciones.out"
