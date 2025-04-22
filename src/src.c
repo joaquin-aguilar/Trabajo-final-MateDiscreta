@@ -6,7 +6,7 @@
 #include "libs/matriz_booleana.h"
 #include "libs/utils.h"
 
-int main()
+int main(void)
 {
     srand(time(NULL));
 

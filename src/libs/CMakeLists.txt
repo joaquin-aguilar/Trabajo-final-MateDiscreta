@@ -7,4 +7,5 @@ target_include_directories(libs PUBLIC
 
 install(TARGETS libs
                LIBRARY DESTINATION lib
-               ARCHIVE DESTINATION lib)
+               ARCHIVE DESTINATION lib
+               RUNTIME DESTINATION bin)
