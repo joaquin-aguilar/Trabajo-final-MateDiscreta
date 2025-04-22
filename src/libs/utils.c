@@ -1,6 +1,10 @@
 #include <sys/stat.h>
 #include <string.h>
 
+#ifdef _WIN32
+    #include <direct.h>
+#endif
+
 #include "utils.h"
 
 void asignar_relacion_especial(struct matriz_booleana* matriz)
