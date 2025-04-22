@@ -22,7 +22,7 @@ Nativo (usando MinGW):
   
 # Construcción automatizada usando scripts:
 > [!NOTE]
-> 💡 El ejecutable .sh es para bash (Linux/MacOs) y el ejecutable .bat es comatiple con cmd y powershell
+> 💡 El ejecutable .sh es para bash (Linux/MacOs) y el ejecutable .bat es compatible con cmd y powershell
 
 > 💡El script de instalacion creara una carpeta llamada "instalacion/" los binarios ejecutables estan dentro de "bin/"
 
