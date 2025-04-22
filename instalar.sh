@@ -13,7 +13,6 @@ if [ -d "instalacion" ]; then
     rm -rf instalacion
 fi
 
-
 # Crear carpeta de builds limpia
 if [ -d "builds" ]; then
     echo -e "${VERDE}🧹 Limpiando carpeta de builds...${NC}"
@@ -33,7 +32,7 @@ fi
 
 # Compilar
 echo -e "${VERDE}🔨 Compilando...${NC}"
-make -j$(nproc)
+cmake --build . -- -j$(nproc)
 
 if [ $? -ne 0 ]; then
     echo -e "${ROJO}❌ Error en compilación${NC}"
@@ -42,7 +41,7 @@ fi
 
 # Instalar
 echo -e "${VERDE}📦 Instalando en ../instalacion/...${NC}"
-make install
+cmake --install . --prefix ../instalacion
 
 if [ $? -ne 0 ]; then
     echo -e "${ROJO}❌ Error en instalación${NC}"

@@ -59,19 +59,21 @@ short* generar_array_unico_aleatorio(short* tamanyo, const short max)
 
 void generar_archivo_dot(const struct matriz_booleana* matriz, const char* nombre_archivo)
 {
-    #ifdef _WIN32
-        if(mkdir("imagenes") != 0)
+    struct stat st = {0};
+    if (stat("imagenes", &st) == -1) 
+    {
+        #ifdef _WIN32
+            if(mkdir("imagenes") != 0)
+        #else
+            if (mkdir("imagenes", 0777) != 0) 
+                
+        #endif
         {
             printf("No se pudo crear la carpeta correctamente!");
             return;
         }
-    #else
-        if(mkdir("imagenes", 0777) != 0)
-        {
-            printf("No se pudo crear la carpeta correctamente!");
-            return;
-        }
-    #endif
+
+    }
 
     // buffer de la ruta
     char ruta[30] = "imagenes/";
