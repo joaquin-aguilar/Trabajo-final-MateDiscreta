@@ -12,6 +12,7 @@ $ apt-get install make cmake graphviz
 
 ### En Windows 
 Entornos POSIX como MSYS2:
+
 $ pacman -S cmake mingw-w64-ucrt-x86_64-graphviz
 
 Nativo (usando MinGW):
@@ -20,14 +21,17 @@ Nativo (usando MinGW):
   
   
 # Construcción automatizada usando scripts:
+> [!NOTE]
 > 💡 El ejecutable .sh es para bash (Linux/MacOs) y el ejecutable .bat es comatiple con cmd y powershell
+
 > 💡El script de instalacion creara una carpeta llamada "instalacion/" los binarios ejecutables estan dentro de "bin/"
+
 ### Compilar e instalar 
 $ ./instalar.sh
 ### Ejecutar
 $ ./instalacion/bin/aplicacion_de_relaciones 
 # Construcción manual usando gcc:
-> 💡 Considera que debes usar .exe (en lugar de .out) como convencion en un programa para windows!
+> 💡 Considera que debes usar .exe (en lugar de .out) como convención en un programa para windows!
 ### Compilar
 $ gcc src/src.c src/libs/matriz_booleana.c src/libs/utils.c -o builds/programa.out 
 
