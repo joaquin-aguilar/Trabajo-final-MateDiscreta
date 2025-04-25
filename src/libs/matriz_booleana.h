@@ -22,6 +22,11 @@ struct matriz_booleana conjuncion_matriz_booleana(const struct matriz_booleana*,
 struct matriz_booleana disyuncion_matriz_booleana(const struct matriz_booleana*, const struct matriz_booleana*);
 
 bool es_matriz_simetrica(const struct matriz_booleana*);
+bool es_matriz_reflexiva(const struct matriz_booleana*);
+bool es_antisimetrica(const struct matriz_booleana*);
+
+short grado_externo(const struct matriz_booleana*, short);
+short grado_interno(const struct matriz_booleana*, short);
 
 
 #endif // !MATRIZ_BOOLEANA_H

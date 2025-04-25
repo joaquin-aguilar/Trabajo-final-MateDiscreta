@@ -116,3 +116,61 @@ bool es_matriz_simetrica(const struct matriz_booleana* matriz)
 
     return true;
 }
+bool es_matriz_reflexiva(const struct matriz_booleana* matriz)
+{
+    if (matriz->filas != matriz->columnas)
+    {
+        printf("la matriz no es cuadrada!\n");
+        return false;
+    }
+
+    for (int i = 0; i < matriz->filas; i++)
+        if(matriz->matriz[i][i] == 0)
+            return false;     
+              
+    return true;
+}
+
+bool es_antisimetrica(const struct matriz_booleana* matriz)
+{
+    if (matriz->filas != matriz->columnas)
+    {
+        printf("la matriz no es cuadrada!\n");
+        return false;
+    }
+
+    for (int i = 0; i < matriz->filas; i++)
+        for (int j = i + 1; j < matriz->columnas; j++)
+            if (matriz->matriz[i][j] && matriz->matriz[j][i])
+                return false;
+    
+    return true;
+}
+
+short grado_externo(const struct matriz_booleana* matriz, short indice)
+{
+    if (!matriz || indice < 0 || indice >= matriz->filas || matriz->filas != matriz->columnas)
+        return -1;
+    
+    short res = 0;
+    for (int i = 0; i < matriz->filas; i++)
+    {
+        if (matriz->matriz[i][indice])
+            res++;
+    }
+    return res;
+}
+
+short grado_interno(const struct matriz_booleana* matriz, short indice)
+{
+    if (!matriz || indice < 0 || indice >= matriz->filas || matriz->filas != matriz->columnas)
+        return -1;
+    
+    short res = 0;
+    for (int i = 0; i < matriz->filas; i++)
+    {
+        if (matriz->matriz[indice][i])
+            res++;
+    }
+    return res;
+}

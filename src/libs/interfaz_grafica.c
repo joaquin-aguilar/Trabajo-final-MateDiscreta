@@ -16,6 +16,7 @@ void inicializar_aplicacion(GtkApplication *aplicacion)
     GtkWidget* boton;
     GtkWidget* label_imagen;
     GtkWidget* imagen;
+    GtkWidget* resumen_label;
 
     // Creacion de la ventana
     ventana1 = gtk_application_window_new(aplicacion);
@@ -43,10 +44,14 @@ void inicializar_aplicacion(GtkApplication *aplicacion)
     imagen = gtk_image_new();
     label_imagen = gtk_label_new("Representación del grafo dirigido:");
 
+    resumen_label = gtk_label_new("");
+
     struct ui_imagenes_t* _mis_entradas = malloc(sizeof(struct ui_imagenes_t));
     _mis_entradas->n_trabajadores = cantidad_trabajadores_input;
     _mis_entradas->trabajador_e = trabajador_enfermo_input;
-    _mis_entradas->imagen = imagen; 
+    _mis_entradas->imagen = imagen;
+    _mis_entradas->matriz = NULL;
+    _mis_entradas-> resumen_label = resumen_label;
 
     // Incluir widgets a contenedores
 
@@ -55,6 +60,7 @@ void inicializar_aplicacion(GtkApplication *aplicacion)
     gtk_box_append(GTK_BOX(contenedor_izquierdo), trabajador_enfermo_label);
     gtk_box_append(GTK_BOX(contenedor_izquierdo), trabajador_enfermo_input);
     gtk_box_append(GTK_BOX(contenedor_izquierdo), boton);
+    gtk_box_append(GTK_BOX(contenedor_izquierdo), resumen_label);
 
     gtk_box_append(GTK_BOX(contenedor_derecho), label_imagen);
     gtk_box_append(GTK_BOX(contenedor_derecho), imagen);
@@ -89,7 +95,7 @@ void inicializar_aplicacion(GtkApplication *aplicacion)
     g_signal_connect(cantidad_trabajadores_input, "notify::text", G_CALLBACK(al_escribir_filtro), NULL);
     g_signal_connect(trabajador_enfermo_input, "notify::text", G_CALLBACK(al_escribir_filtro), NULL);
     g_signal_connect(boton, "clicked", G_CALLBACK(al_pulsar_boton), _mis_entradas);
-    g_signal_connect(ventana1, "close-request", G_CALLBACK(al_cerrar_ventana), _mis_entradas->matriz);
+    g_signal_connect(ventana1, "close-request", G_CALLBACK(al_cerrar_ventana), _mis_entradas);
 
 
     // Incluir el cotenedor principal a la ventana

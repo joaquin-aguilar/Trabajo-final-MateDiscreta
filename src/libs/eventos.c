@@ -34,13 +34,15 @@ void mostrar_alerta(GtkWindow* padre, const char* mensaje)
 }
 gboolean al_cerrar_ventana(GtkWindow *ventana, gpointer user_data) 
 {
-    struct matriz_booleana* matriz = (matriz_booleana*) user_data;
-    if(matriz != NULL)
+    struct ui_imagenes_t* retorno = (ui_imagenes_t*) user_data;
+    if(retorno->matriz != NULL)
     {
-        liberar_matriz(matriz);
-        free(matriz);
+        liberar_matriz(retorno->matriz);
+        free(retorno->matriz);
+        g_print("Matriz Limpia!\n");
     }
-    g_print("Matriz Limpia!\n");
+    free(retorno);
+    g_print("struct ui limpia!\n");
     return FALSE;
 }
 
@@ -75,12 +77,18 @@ void al_pulsar_boton(GtkButton* boton, gpointer informacion)
         mostrar_alerta(GTK_WINDOW(gtk_widget_get_root(GTK_WIDGET(boton))), texto_error);
         return;
     }
-    g_print("n: %d, x: %d\n", cantidad_trabajadores_int, trabajador_enfermo_int);
 
+    // TODO: Validar el funcionamiento correcto de allocs y frees en la matriz y quitar los debuggers
+    g_print("n: %d, x: %d\n", cantidad_trabajadores_int, trabajador_enfermo_int);
+    g_print("Turno de las matrices!\n");
     if(mis_entradas->matriz == NULL)
-        mis_entradas->matriz = (struct matriz_booleana*) malloc(sizeof(struct matriz_booleana));
-    else
     {
+        g_print("Es nula\n");
+        mis_entradas->matriz = (struct matriz_booleana*) malloc(sizeof(struct matriz_booleana));
+    }
+    else
+    { 
+        g_print("No es nula!\n");
         liberar_matriz(mis_entradas->matriz);
         free(mis_entradas->matriz);
         
@@ -88,8 +96,35 @@ void al_pulsar_boton(GtkButton* boton, gpointer informacion)
     }
     *mis_entradas->matriz = crearMatriz_booleana(cantidad_trabajadores_int, cantidad_trabajadores_int);
     asignar_relacion_especial(mis_entradas->matriz);
+
+
+    int dias = dias_para_infectar_todos(mis_entradas->matriz, trabajador_enfermo_int);
+    short total_infectados = 1;
+    short nuevos_infectados = 0;
+
+    // Crear el string de respuesta para el albel
+    GString *cadena = g_string_new("Resumen:\n");
+    
+    for (int i = 1; i <= dias; i++)
+    {
+        nuevos_infectados = infectados_en_dia(mis_entradas->matriz, trabajador_enfermo_int, i);
+        total_infectados += nuevos_infectados;
+        g_string_append_printf(cadena, "Dia: %d. Nuevos infectados: %d, total: %d\n", i, nuevos_infectados, total_infectados);
+    }
+    g_string_append_printf(cadena,"Total de dias para la infeccion: %d\n", dias);
+    g_string_append_printf(cadena,"La relacion es reflexiva?: %s\n", (es_matriz_reflexiva(mis_entradas->matriz) ? "si" : "no") );
+    g_string_append_printf(cadena,"La relacion es simetrica?: %s\n", (es_matriz_simetrica(mis_entradas->matriz) ? "si" : "no"));
+    g_string_append_printf(cadena,"La relacion es antisimetrica?: %s\n", (es_antisimetrica(mis_entradas->matriz) ? "si" : "no"));
+    
+    gtk_label_set_text(GTK_LABEL(mis_entradas->resumen_label), cadena->str);
+
+    g_string_free(cadena, TRUE);
+
+    // Generar imagen con graphviz
     generar_archivo_dot(mis_entradas->matriz, "grafo.dot");
     system("dot -Tpng imagenes/grafo.dot -o imagenes/grafo.png");
+
+    // Cargar imagen en la ventana
 
     if (g_file_test("imagenes/grafo.png", G_FILE_TEST_EXISTS))
     {
@@ -106,6 +141,7 @@ void al_escribir_filtro(GtkEditable *editable, gpointer informacion)
     const char *texto = gtk_editable_get_text(editable);
     GString *nuevo_texto = g_string_new("");
 
+    // Validar por cada caracter e incluir unicamente los ascii numericos
     for (int i = 0; texto[i] != '\0'; i++)
     {
         if (g_ascii_isdigit(texto[i]))
@@ -113,11 +149,12 @@ void al_escribir_filtro(GtkEditable *editable, gpointer informacion)
     }
 
     if (g_strcmp0(texto, nuevo_texto->str) != 0)
-    {
-        g_signal_handlers_block_by_func(editable, al_escribir_filtro, informacion);
+    {   
+        g_signal_handlers_block_by_func(editable, al_escribir_filtro, informacion); // Gestionar la exclusividad de escritura del input para evitar bucles
         gtk_editable_set_text(editable, nuevo_texto->str);
-        g_signal_handlers_unblock_by_func(editable, al_escribir_filtro, informacion);
+        g_signal_handlers_unblock_by_func(editable, al_escribir_filtro, informacion);   // Gestionar la exclusividad de escritura del input para evitar bucles
     }
 
+    // eliminar el alloc del string dinamico
     g_string_free(nuevo_texto, TRUE);
 }

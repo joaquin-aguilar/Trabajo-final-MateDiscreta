@@ -5,7 +5,7 @@
 
 typedef struct ui_imagenes_t 
 {
-    GtkWidget *n_trabajadores, *trabajador_e, *imagen;
+    GtkWidget *n_trabajadores, *trabajador_e, *imagen, *resumen_label;
     struct matriz_booleana* matriz; 
 } ui_imagenes_t;
 

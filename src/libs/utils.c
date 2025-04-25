@@ -9,52 +9,147 @@
 
 void asignar_relacion_especial(struct matriz_booleana* matriz)
 {
-
-    for(int i = 0; i < matriz->filas; i++)
+    short n = matriz->filas;
+    // Validar que la matriz sea valida (por lo menos 2x2)
+    if (n <= 1) 
+        return;
+    // Metodo por fuerza bruta
+    for (short i = 0; i < n; ++i)
     {
-        short tamanyo = 0;
-        short* array_rel = generar_array_unico_aleatorio(&tamanyo, matriz->filas);
-        for (int j = 0; j < tamanyo; j++)
+        int intentos_globales = 0;
+
+        while (grado_interno(matriz, i) < 5 && intentos_globales < 100)
         {
-            // evitamos los bucles
-            if(array_rel[j] != i)
-            {
-                matriz->matriz[i][array_rel[j]] = true;
-                matriz->matriz[array_rel[j]][i] = true;
-            }
+            short j = rand() % n;
+            intentos_globales++;
+
+            if (j == i || matriz->matriz[i][j])
+                continue;
+
+            if (grado_interno(matriz, j) >= 5)
+                continue;
+
+            matriz->matriz[i][j] = true;
+            matriz->matriz[j][i] = true;
         }
-        free(array_rel);
     }
 }
 
-short* generar_array_unico_aleatorio(short* tamanyo, const short max) 
+int dias_para_infectar_todos(const struct matriz_booleana* matriz, short paciente_cero)
 {
-    if (max <= 0 || tamanyo == NULL)
-        return NULL;
+    if (paciente_cero >= matriz->filas) return -1;
 
-    *tamanyo = 1 + rand() % 5;
+    // Inicializa a todos como no infectados
+    bool* infectados = calloc(matriz->filas, sizeof(bool));
+    if (!infectados) return -1;
 
-    short* pool = (short*) malloc(max * sizeof(short));
+    infectados[paciente_cero] = true;
+    int total_infectados = 1;
+    int dias = 0;
 
-    for (short i = 0; i < max; i++) 
-        pool[i] = i;
-
-    // Fisher-Yates
-    for (short i = max - 1; i > 0; i--) 
+    while (total_infectados < matriz->filas)
     {
-        short j = rand() % (i + 1);
-        short temp = pool[i];
-        pool[i] = pool[j];
-        pool[j] = temp;
+        // Crear una lista temporal de nuevos infectados
+        bool* nuevos = calloc(matriz->filas, sizeof(bool));
+        if (!nuevos) {
+            free(infectados);
+            return -1;
+        }
+
+        // Recorremos cada empleado
+        for (short i = 0; i < matriz->filas; i++)
+        {
+            if (!infectados[i]) continue;
+
+            // Infecta a sus contactos
+            for (short j = 0; j < matriz->filas; j++)
+            {
+                if (matriz->matriz[i][j] && !infectados[j])
+                    nuevos[j] = true;
+            }
+        }
+
+        // Aplicamos los nuevos contagios
+        int nuevos_infectados = 0;
+        for (short i = 0; i < matriz->filas; i++)
+        {
+            if (nuevos[i]) {
+                infectados[i] = true;
+                nuevos_infectados++;
+            }
+        }
+
+        free(nuevos);
+
+        if (nuevos_infectados == 0) {
+            // No se puede propagar más (grafo desconectado)
+            free(infectados);
+            return -1;
+        }
+
+        total_infectados += nuevos_infectados;
+        dias++;
     }
 
-    short* resultado = (short*) malloc((*tamanyo) * sizeof(short));
+    free(infectados);
+    return dias;
+}
 
-    for (int i = 0; i < *tamanyo; i++) 
-        resultado[i] = pool[i];
+short infectados_en_dia(const struct matriz_booleana* matriz, short paciente_cero, short dia_objetivo) 
+{
+    // Validar matriz 
+    if (paciente_cero >= matriz->filas || dia_objetivo <= 0)
+        return -1;
 
-    free(pool);
-    return resultado;
+    bool infectados[matriz->filas];
+    for (short i = 0; i < matriz->filas; i++)
+        infectados[i] = false;
+
+    infectados[paciente_cero] = true;
+    short total_infectados = 1;
+    short dia_actual = 0;
+
+    while (total_infectados < matriz->filas) 
+    {
+        short nuevos_enfermos = 0;
+        bool infectados_hoy[matriz->filas];
+
+        for (short i = 0; i < matriz->filas; i++)
+            infectados_hoy[i] = false;
+
+        for (short i = 0; i < matriz->filas; i++) 
+        {
+            if (!infectados[i])
+                continue;
+
+            for (short j = 0; j < matriz->filas; j++) 
+            {
+                if (matriz->matriz[i][j] && !infectados[j] && !infectados_hoy[j]) 
+                {
+                    infectados_hoy[j] = true;
+                    nuevos_enfermos++;
+                }
+            }
+        }
+
+        if (nuevos_enfermos == 0)
+            return 0; // ya no se puede contagiar más
+
+        for (short i = 0; i < matriz->filas; i++) 
+        {
+            if (infectados_hoy[i]) 
+            {
+                infectados[i] = true;
+                total_infectados++;
+            }
+        }
+
+        dia_actual++;
+
+        if (dia_actual == dia_objetivo)
+            return nuevos_enfermos;
+    }
+    return 0;
 }
 
 void generar_archivo_dot(const struct matriz_booleana* matriz, const char* nombre_archivo)
